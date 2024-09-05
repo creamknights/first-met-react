@@ -1,0 +1,13 @@
+// 여러 개의 Component 렌더링하기
+// mapping과 key
+
+key는 list에서 어떤 item이 변경, 추가 또는 제거되었는지 구분하기 위해 사용
+key 값은 같은 list에 있는 elements 사이에서만 고유한 값이면 된다.
+key 값으로는 고유한 id, index  값을 사용한다.
+    하지만 배열에서 item의 순서가 바뀔 수 있는 경우에는 키값으로 인덱스를 사용하는 것을 권장하지 않음
+
+map() 함수 안에 있는 elements는 꼭 key가 필요하다.
+
+key 값은 다양한 방식으로 할 수 있다. 
+포맷팅 된 문자열로 변경해 쓸 수 있다. 
+ex) key={`student-id-${student.id}`}
