@@ -4,11 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import SignUp from "./chapter_11/SignUp";
+import DarkOrLight from "./chapter_14/DarkOrLight";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <SignUp />
+    <DarkOrLight />
   </React.StrictMode>
 );
 

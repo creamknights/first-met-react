@@ -1,0 +1,78 @@
+// useContext() Hook은 함수 컴포넌트에서 context를 쉽게 사용할 수 있게 해줌
+
+function MyComponent(props){
+    const value = useContext(MyContext); // 파라미터로 context 객체를 꼭 넣어줘야 함 (Consumer나 Provider를 넣으면 안 됨)
+
+    return (
+        ...
+    );
+}
+
+
+
+// context
+리액트 컴포넌트들 사이에서 데이터를 기존의 prop을 통해 전달하는 방식 대신
+컴포넌트 tree를 통해 "곧바로 컴포넌트로 전달"하는 방식을 제공
+어떤 컴포넌트든지 데이터에 쉽게 접근 가능
+데이터를 한 곳에서 관리하기 때문에 디버깅에도 유리
+
+prop으로 전달하는 방식은 로그인이나 프로필 정보 같은 것을 전달하려면
+반복적인 코드가 많이 생기고 지저분해진다. 
+자식 컴포넌트의 자식 컴포넌트의 ...
+비효율적이고 직관적이지도 않음
+
+언제 context를 사용해야 할까?
+여러 개의 component들이 접근해야 하는 데이터
+-로그인 여부, 로그인 정보
+-UI 테마
+-현재 선택된 언어, 현재 지역 정보, 캐싱된 데이터
+
+[context 사용 방법]
+// react.creatContext 함수를 사용해서 context 생성
+const ThemeContext = React.creatContext('light');
+
+// context를 사용할 컴포넌트의 상위 컴포넌트를 Provider로 감쌈
+// 이렇게 하면 Provider의 모든 하위 컴포넌트가 얼마나 깊이 위치해 있는지와 관계없이 context의 데이터를 읽을 수 있음
+// Provider 컴포넌트에는 value라는 prop이 있음. 하위 컴포넌트에게 전달됨
+function App(props){
+    return(
+        <ThemeContext.Provider value="dark">
+            <Toolbar/>
+        </ThemeContext.Provider>
+    );
+}
+
+function Toolbar(props){
+    return(
+        <div>
+            <ThemedButton/>
+        </div>
+    );
+}
+
+function ThemedButton(props){
+    return(
+        <ThemeContext.Consumer>
+            {value => <Button theme={value} />}
+        </ThemeContext.Consumer>
+    );
+}
+
+// context 사용 전 고려할 점
+무조건 좋은 것 아님
+컴포넌트와 context가 연동되면 재사용성이 떨어짐
+
+// Provider 컴포넌트가 재렌더링될 때마다 모든 하위 consumer 컴포넌트는 재렌더링됨
+// state를 사용하여 불필요한 재렌더링을 막을 수 있음
+
+function App(props){
+    // value를 직접 넣지 않고 state를 선언
+    const [value, setValue] = useState({something: 'something'});
+
+    return (
+         // state의 값을 Provider에 넣어줌
+        <MyContext.Provider value={value}>
+            <Toolbar/>
+        </MyContext.Provider>
+    );
+}
